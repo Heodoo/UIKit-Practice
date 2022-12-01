@@ -7,10 +7,10 @@
 
 import UIKit
 import SwiftUI
+import SnapKit
 
 
 class ViewController: UIViewController {
-    
     let test : UILabel = {
         let test = UILabel()
         test.text = "text" // test를 위해서 출력할 라벨
@@ -37,12 +37,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //UIlabel UItextfield UIbutton UI
-        view.backgroundColor = .white // 배경색
+       // view.backgroundColor = .white // 배경색
         setupLayout()
         
     }
-    
+
     @objc func labelToggle(sender: UIButton) {
+        test.text = "addadasdsa"
+        //test.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = false // 얘는 왜 안먹지?
+        test.snp.remakeConstraints { make in
+            make.top.equalToSuperview()
+        }
+        
         isLabelActive = !isLabelActive
         print("is: \(isLabelActive)")
         print("sender \(sender)")
@@ -73,10 +79,18 @@ private extension ViewController {
     func setupLayout() {
         view.addSubview(test)
         view.addSubview(myBtn)
-        test.translatesAutoresizingMaskIntoConstraints = false
-        test.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        test.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = isLabelActive
-        myBtn.frame = CGRect(x: view.center.x, y: view.center.y + 50.0, width: 100, height: 50)
+//        test.translatesAutoresizingMaskIntoConstraints = false
+//        test.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        test.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = isLabelActive
+//        myBtn.frame = CGRect(x: view.center.x, y: view.center.y + 50.0, width: 100, height: 50)
+        test.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        myBtn.snp.remakeConstraints { make in
+            //make.center.equalToSuperview()
+            make.left.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
         
     }
 }
