@@ -48,3 +48,50 @@ let btn = UIButton().then {
                 $0.backgroundColor = .orange
             }
 ```
+
+## 22/12/08~11
++ UITableView + UINavigationViewController 구현
+
+
+```swift
+tableView.dataSource = self // self는 ViewController 
+tableView.delegate = self
+```
+
+
++ 왜 프로토콜 채택하고 준수하여 메소드를 만들어주었는데 위 과정도 해야 하지?
+    + 프로토콜을 준수하여 만든 메소드들을 어디(어떤 뷰)에서 사용해줄지 위임해줘야하기 때문에 위 과정을 수행해주어야함
+    + tableView 에 있는 dataSource/delegate 에서 추가해준 메소드들을 위임자인 ViewController에서 쓸 수 있도록
+    + 이 패턴을 통해 ViewController(self) 에 이벤트가 발생하면 dataSource/delegate 프로토콜에 따라 구현된 메소드들로 응답을 준다
+
+
+
+UITableView에 dataSource 와 delegate가 프로토콜타입의 프로퍼티로 정의되어 있음
+
+
+
+```swift
+@available(iOS 2.0, *)
+open class UITableView : UIScrollView, NSCoding, UIDataSourceTranslating {
+
+    
+    public init(frame: CGRect, style: UITableView.Style) // must specify style at creation. -initWithFrame: calls this with UITableViewStylePlain
+
+    public init?(coder: NSCoder)
+
+    
+    open var style: UITableView.Style { get }
+
+    
+    weak open var dataSource: UITableViewDataSource?
+
+    weak open var delegate: UITableViewDelegate?
+    //...
+}
+```
+
+
+
+
++ 참고: [swift] Delegate Pattern ( + delegate로 데이터 전달 ) <link>https://ggasoon2.tistory.com/6</link>
++ 나중에 CustomView를 만들어보고 CustomDelegate 프로토콜을 만들어보면 delegate 패턴에 대해 좀더 이해될것 같다.
